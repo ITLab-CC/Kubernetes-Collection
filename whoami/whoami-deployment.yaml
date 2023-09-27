@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.custom.label: whoami
+  name: whoami
+  namespace: whoami-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.custom.label: whoami
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.custom.label: whoami
+    spec:
+      containers:
+        # - image: fabxc/instrumented_app
+        #   name: whoami
+        #   resources:
+        #     limits:
+        #       cpu: 500m
+        #       memory: 500Mi
+        #     requests:
+        #       cpu: 100m
+        #       memory: 100Mi
+        - image: traefik/whoami
+          name: whoami
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      restartPolicy: Always

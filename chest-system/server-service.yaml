@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yaml -o kube --namespace chest-system
+    kompose.version: 1.30.0 (HEAD)
+  labels:
+    io.kompose.service: server
+  name: server
+  namespace: chest-system
+spec:
+  ports:
+    - name: '8000'
+      port: 8000
+      targetPort: 8000
+  selector:
+    io.kompose.service: server
+status:
+  loadBalancer: {}

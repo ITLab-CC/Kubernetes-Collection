@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.custom.label: instrumented
+    external-dns.alpha.kubernetes.io/target: '1.2.3.4'
+  name: instrumented
+  namespace: whoami-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.custom.label: instrumented
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.custom.label: instrumented
+        external-dns.alpha.kubernetes.io/target: '1.2.3.4'
+    spec:
+      containers:
+        - image: fabxc/instrumented_app
+          name: instrumented
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      restartPolicy: Always

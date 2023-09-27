@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus-frontends
+  namespace: monitoring
+spec:
+  replicas: 1
+  retention: 7d
+  resources:
+    requests:
+      memory: 400Mi
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceMonitorNamespaceSelector: {}
+  alerting:
+    alertmanagers:
+      - namespace: default
+        name: alertmanager-operated
+        port: web
+  ruleSelector:
+    matchLabels:
+      prometheus: frontend-prometheus
+      role: alert-rules-frontend
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      team: frontend
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 2Gi

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.not-kompose.service: wikijs
+  name: wikijs
+  namespace: wiki-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.not-kompose.service: wikijs
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.not-kompose.network/wiki-ns-default: 'true'
+        io.not-kompose.service: wikijs
+    spec:
+      containers:
+        # Config via configmap (not env vars)
+        # - env:
+        #     - name: DB_TYPE
+        #       value: mariadb
+        #     - name: DB_HOST
+        #       value: db
+        #     - name: DB_PORT
+        #       value: '3306'
+        #     - name: DB_NAME
+        #       value: wikijs_db
+        #     - name: DB_USER
+        #       value: wikijs_user
+        #     - name: DB_PASS
+        #       value: 'WikiJS1234'
+        - image: lscr.io/linuxserver/wikijs:latest
+          name: wikijs
+          volumeMounts:
+            - mountPath: '/app/wiki/config.yml'
+              name: 'config-configmap'
+              subPath: 'config.yml'
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      restartPolicy: Always
+      volumes:
+        - name: wikijs-nfs-storage
+          nfs:
+            path: /k3s-test-sj/wikijs/storage
+            server: 172.30.41.5
+        - configMap:
+            name: config-configmap
+          name: config-configmap
+        - configMap:
+            name: sideload-configmap
+          name: sideload-configmap
+status: {}

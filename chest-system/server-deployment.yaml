@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose-resolved.yaml -o kube --namespace chest-system
+    kompose.version: 1.30.0 (HEAD)
+  labels:
+    io.kompose.service: server
+  name: server
+  namespace: chest-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: server
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose-resolved.yaml -o kube --namespace chest-system
+        kompose.version: 1.30.0 (HEAD)
+      labels:
+        io.kompose.network/chest-system-default: 'true'
+        io.kompose.service: server
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:9.6.5
+          command: [
+              'sh',
+              '-c',
+              'until pg_isready -h chest-cluster -p 5432;
+              do echo waiting for database; sleep 2; done;',
+            ]
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: chest
+            - name: POSTGRES_HOST
+              value: chest-cluster
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: chestuser.chest-cluster.credentials.postgresql.acid.zalan.do
+            - name: POSTGRES_USER
+              value: chestuser
+          image: skyface753/chest-system-server:latest
+          name: server
+
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      restartPolicy: Always
+status: {}

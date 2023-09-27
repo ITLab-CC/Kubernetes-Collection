@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o kube --namespace sharelatex-ns
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sharelatex
+  name: sharelatex
+  namespace: sharelatex-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sharelatex
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o kube --namespace sharelatex-ns
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/sharelatex-default: 'true'
+        io.kompose.service: sharelatex
+    spec:
+      containers:
+        - env:
+            - name: EMAIL_CONFIRMATION_DISABLED
+              value: 'true'
+            - name: ENABLED_LINKED_FILE_TYPES
+              value: project_file,project_output_file
+            - name: ENABLE_CONVERSIONS
+              value: 'true'
+            - name: REDIS_HOST
+              value: redis
+            - name: SHARELATEX_APP_NAME
+              value: Overleaf IT-Lab
+            - name: SHARELATEX_MONGO_URL
+              value: 'mongodb+srv://my-user:Latex123@example-mongodb-svc.mongodb.svc.cluster.local/admin?replicaSet=example-mongodb&ssl=false'
+            - name: SHARELATEX_REDIS_HOST
+              value: redis.ot-operators.svc.cluster.local
+            - name: TEXMFVAR
+              value: /var/lib/sharelatex/tmp/texmf-var
+            - name: SHARELATEX_EMAIL_FROM_ADDRESS
+              value: ''
+            - name: SHARELATEX_EMAIL_SMTP_HOST
+              value: ''
+            - name: SHARELATEX_EMAIL_SMTP_PORT
+              value: '587'
+            - name: SHARELATEX_EMAIL_SMTP_SECURE
+              value: 'false'
+            - name: SHARELATEX_EMAIL_SMTP_USER
+              value: ''
+            - name: SHARELATEX_EMAIL_SMTP_PASS
+              value: ''
+            - name: SHARELATEX_SITE_URL
+              value: 'https://latex.k3s.test'
+            - name: SHARELATEX_BEHIND_PROXY
+              value: 'true'
+            - name: SHARELATEX_SECURE_COOKIE
+              value: 'true'
+          image: tuetenk0pp/sharelatex-full:3.5.6
+          name: sharelatex
+
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/sharelatex
+              name: sharelatex-data
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: sharelatex-data
+          persistentVolumeClaim:
+            claimName: sharelatex-data
+status: {}

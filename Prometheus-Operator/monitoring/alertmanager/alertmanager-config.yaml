@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: slack-config
+stringData:
+  url: <your-slack-or-discord-webhook-url>
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: config-example
+  labels:
+    alertmanagerConfig: example
+spec:
+  route:
+    continue: true
+    groupBy: ['alertname']
+    groupWait: 10s
+    groupInterval: 10s
+    repeatInterval: 12h
+    receiver: 'null'
+  receivers:
+    - name: 'discord'
+      discordConfigs:
+        - apiURL:
+            name: slack-config
+            key: url
+          sendResolved: true

@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: instrumented
+  labels:
+    name: instrumented
+    team: frontend
+  namespace: whoami-ns
+spec:
+  selector:
+    matchLabels:
+      io.custom.label: instrumented
+  namespaceSelector:
+    matchNames:
+      - whoami-ns
+    # any: true
+  endpoints:
+    - port: web
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+      scheme: http
+      tlsConfig:
+        insecureSkipVerify: true

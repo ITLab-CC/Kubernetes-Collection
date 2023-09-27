@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker-registry-pod
+  namespace: registry-ns
+  labels:
+    app: registry
+spec:
+  containers:
+    - name: registry
+      image: registry:2.6.2
+      volumeMounts:
+        - name: repo-vol
+          mountPath: /var/lib/registry
+      ports:
+        - containerPort: 5000
+      resources:
+        limits:
+          cpu: 500m
+          memory: 500Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+  volumes:
+    - name: repo-vol
+      persistentVolumeClaim:
+        claimName: docker-repo-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-service
+  namespace: registry-ns
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+  selector:
+    app: registry

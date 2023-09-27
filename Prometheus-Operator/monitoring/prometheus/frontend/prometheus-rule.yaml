@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  creationTimestamp: null
+  labels:
+    prometheus: frontend-prometheus
+    role: alert-rules-frontend
+  name: prometheus-frontend-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: ./frontend.rules
+      rules:
+        # Alert for any instance that is unreachable for >2 minutes.
+        - alert: service_down
+          expr: up == 0
+          for: 2m
+          labels:
+            severity: page
+            name: service_down
+          annotations:
+            summary: 'Instance {{ $labels.instance }} down'
+            description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes.'

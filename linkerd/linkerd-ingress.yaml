@@ -1,0 +1,21 @@
+# apiVersion: networking.k8s.io/v1beta1 # for k8s < v1.19
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: linkerd-ingress
+  namespace: linkerd-viz
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: default-cors@kubernetescrd,default-redirectscheme@kubernetescrd,default-my-auth-middleware@kubernetescrd
+spec:
+  rules:
+    - host: linkerd.k3s.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8084

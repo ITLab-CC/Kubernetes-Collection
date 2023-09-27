@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: openfaas-ingress
+  namespace: openfaas
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-cors@kubernetescrd,default-redirectscheme@kubernetescrd
+spec:
+  rules:
+    - host: openfaas.k3s.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: openfaas-service
+                port:
+                  number: 8080

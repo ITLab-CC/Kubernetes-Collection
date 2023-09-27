@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: whoami-prometheus-servicemonitor
+  namespace: monitoring
+  labels:
+    name: whoami-prometheus-servicemonitor
+    team: frontend
+spec:
+  selector:
+    matchLabels:
+      io.custom.label: instrumented
+  namespaceSelector:
+    matchNames:
+      - whoami-ns
+  endpoints:
+    - port: web
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+      scheme: http
+      tlsConfig:
+        insecureSkipVerify: true

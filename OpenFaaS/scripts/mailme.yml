@@ -1,0 +1,18 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://openfaas.k3s.test:8080
+functions:
+  mailme:
+    lang: python3
+    handler: ./mailme
+    image: registry.k3s.test:5000/mailme
+
+    environment:
+      smtp_server: smtp.gmail.com
+      smtp_login: user
+      sender: sender
+
+    secrets:
+      - api-key
+      - email-pass

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o kube --namespace sharelatex-ns
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sharelatex
+  name: sharelatex
+  namespace: sharelatex-ns
+spec:
+  ports:
+    - name: "81"
+      port: 81
+      targetPort: 80
+  selector:
+    io.kompose.service: sharelatex
+status:
+  loadBalancer: {}

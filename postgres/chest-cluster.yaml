@@ -1,0 +1,17 @@
+apiVersion: 'acid.zalan.do/v1'
+kind: postgresql
+metadata:
+  name: chest-cluster
+  namespace: chest-system
+spec:
+  teamId: 'chest'
+  numberOfInstances: 2
+  users:
+    chestuser: [] # role for application chest
+  databases:
+    # foo: zalando # dbname: owner
+    chest: chestuser
+  postgresql:
+    version: '15'
+  volume:
+    size: 500Mi

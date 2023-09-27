@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sharelatex-ingress
+  namespace: sharelatex-ns
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-cors@kubernetescrd,default-redirectscheme@kubernetescrd
+spec:
+  rules:
+    - host: latex.k3s.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sharelatex
+                port:
+                  number: 81

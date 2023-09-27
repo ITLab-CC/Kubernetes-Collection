@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chest-proxy-ingress
+  namespace: chest-system
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-cors@kubernetescrd,default-redirectscheme@kubernetescrd
+spec:
+  rules:
+    - host: chest.k3s.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chest-proxy-service
+                port:
+                  number: 80

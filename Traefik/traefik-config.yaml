@@ -1,0 +1,30 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+      - "--api"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--log.level=DEBUG"
+      # - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+      # - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      # - "--certificatesresolvers.myresolver.acme.email=<email>"
+      # - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
+    ports:
+      traefik:
+        expose: true
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
+    # env:
+    #   - name: CF_API_EMAIL
+    #     value: '<email>'
+    #   - name: CF_API_KEY
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: cloudflare-api-key
+    #         key: api-key #<== Unter https://dash.cloudflare.com/profile/api-tokens "Global API Key"

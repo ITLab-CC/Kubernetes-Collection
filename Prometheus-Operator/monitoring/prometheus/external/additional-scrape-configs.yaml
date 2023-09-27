@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: external-additional-scrape-configs
+  namespace: monitoring
+stringData:
+  prometheus-additional-job.yaml: |
+    - job_name: 'pve-exporter'
+      static_configs:
+        - targets:
+            - 1.2.3.4:9221
+          labels:
+            namespace: monitoring
+      metrics_path: /pve
+      params:
+        module: [default]
+    - job_name: 'uptime'
+      scrape_interval: 30s
+      scheme: http
+      static_configs:
+        - targets: ['1.2.3.4:3001']
+          labels:
+            namespace: default
+      basic_auth: # Only needed if authentication is enabled (default)
+        username: admin
+        password: admin

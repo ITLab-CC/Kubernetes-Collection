@@ -1,0 +1,71 @@
+site_name: Kubernetes Collection
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.tabs
+    - navigation.tabs.sticky
+  palette:
+    scheme: slate
+markdown_extensions:
+  - attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+plugins:
+  - search
+  - awesome-pages
+  - print-site
+nav:
+  - Create Cluster:
+      - Intro: create-cluster/index.md
+      - Local Cluster via Kind: create-cluster/kind.md
+      - K3s Cluster: create-cluster/k3s.md
+      - K8s Cluster: create-cluster/k8s.md
+      - Traefik:
+          - Basic Config: create-cluster/traefik/index.md
+          - TLS: create-cluster/traefik/tls.md
+  - Tools:
+      - Helm & Arkade: tools/helm+arkade.md
+      - Dashboard: tools/dashboard.md
+      - Continuous Deployment:
+          - Intro: tools/continuous-deployment/index.md
+          - ArgoCD: tools/continuous-deployment/argocd.md
+          - Terraform: tools/continuous-deployment/terraform.md
+      - Linkerd: tools/linkerd.md
+      - Rancher: tools/rancher.md
+  - Storage:
+      - Intro: storage/index.md
+      - Longhorn: storage/longhorn.md
+      - NFS: storage/nfs.md
+  - Applications:
+      - Intro: applications/index.md
+      - Monitoring:
+          - Intro: applications/monitoring/index.md
+          - Prometheus-Operator: applications/monitoring/prometheus-operator.md
+          - Service-Monitor: applications/monitoring/service-monitor.md
+          - Promtheus: applications/monitoring/prometheus.md
+          - Alertmanager: applications/monitoring/alertmanager.md
+          - Grafana: applications/monitoring/grafana.md
+      - OpenFaaS: applications/openfaas.md
+      - Docker Registry: applications/docker-registry.md
+      - Databases:
+          - MongoDB: applications/databases/mongodb.md
+          - PostgreSQL: applications/databases/postgresql.md
+          - Redis: applications/databases/redis.md
+      - Custom Applications:
+          - ShareLaTeX: applications/custom/sharelatex.md
+          - WikiJS: applications/custom/wikijs.md
+          - Chest-System: applications/custom/chest-system.md
+  - Usage:
+      - ... | usage/*.md
+      - ... | usefull-commands/*.md
+  - Random Stuff:
+      - CoreDNS: random/coredns.md

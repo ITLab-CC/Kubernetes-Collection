@@ -1,0 +1,25 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: prometheus-scaledobject
+  namespace: whoami-ns
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: instrumented
+  triggers:
+    - type: cpu
+      metricType: Utilization # Allowed types are 'Utilization' or 'AverageValue'
+      metadata:
+        value: '180'
+  # triggers:
+  #   - type: prometheus
+  #     metadata:
+  #       serverAddress: http://prometheus.monitoring.svc.cluster.local:9090
+  #       metricName: http_request_total
+  #       query: http_requests_total{code="200",handler="prometheus",method="get", service="instrumented-service"}
+  #       threshold: '50'
+  idleReplicaCount: 0
+  minReplicaCount: 3
+  maxReplicaCount: 10

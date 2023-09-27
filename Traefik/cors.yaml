@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cors
+  namespace: default
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - 'https://hub.k3s.it-lab.cc'
+    accessControlAllowMethods:
+      - HEAD
+      - GET

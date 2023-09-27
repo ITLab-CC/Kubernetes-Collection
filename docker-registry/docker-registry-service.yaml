@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-service
+  namespace: docker-registry
+spec:
+  selector:
+    app: registry
+  type: LoadBalancer
+  ports:
+    - name: docker-port
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  loadBalancerIP: 192.168.178.104
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry-ingress
+  namespace: docker-registry
+  # annotations:
+  #   traefik.ingress.kubernetes.io/router.middlewares: default-cors@kubernetescrd,default-redirectscheme@kubernetescrd
+spec:
+  rules:
+    - host: registry.k3s.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: registry-service
+                port:
+                  number: 5000

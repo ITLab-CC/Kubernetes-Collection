@@ -1,0 +1,160 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unbound-main-conf
+  namespace: unbound
+data:
+  unbound.conf: |
+    server:
+      verbosity: 1
+      log-local-actions: no
+      log-queries: yes
+      log-replies: yes
+      log-servfail: yes
+      use-syslog: no
+      logfile: ""
+      log-time-ascii: yes
+
+
+      num-threads: 2
+      interface: 0.0.0.0
+      interface: ::0
+      port: 53
+
+      do-ip4: yes
+      do-ip6: yes
+      do-udp: yes
+      do-tcp: yes
+
+      outgoing-range: 8192
+      num-queries-per-thread: 4096
+      so-reuseport: yes
+      edns-buffer-size: 8192
+      max-udp-size: 8192
+      msg-buffer-size: 65552
+      msg-cache-size: 50m
+      msg-cache-slabs: 1
+      num-queries-per-thread: 1024
+      jostle-timeout: 200
+      delay-close: 0
+      rrset-cache-size: 100m
+      rrset-cache-slabs: 1
+      cache-min-ttl: 900
+      cache-max-ttl: 14400
+      cache-max-negative-ttl: 3600
+      infra-host-ttl: 900
+      infra-cache-min-rtt: 50
+      infra-cache-slabs: 1
+      infra-cache-numhosts: 10000
+      key-cache-slabs: 1
+
+      do-daemonize: no
+
+      access-control: 127.0.0.1/32 allow
+      access-control: 192.168.0.0/16 allow
+      access-control: 172.16.0.0/12 allow
+      access-control: 10.0.0.0/8 allow
+      access-control: fc80::/7 allow
+      access-control: ::1/128 allow
+
+
+
+
+      root-hints: /etc/unbound/root.hints
+      hide-identity: yes
+      hide-version: yes
+      identity: "DNS"
+      version: "2.0"
+
+      harden-short-bufsize: yes
+      harden-large-queries: yes
+      harden-glue: yes
+      harden-dnssec-stripped: yes
+      harden-below-nxdomain: yes
+      qname-minimisation: yes
+      use-caps-for-id: yes
+
+      private-address: 10.0.0.0/8
+      private-address: 172.16.0.0/12
+      private-address: 192.168.0.0/16
+      private-address: 169.254.0.0/16
+      private-address: fd00::/8
+      private-address: fe80::/10
+      private-address: ::ffff:0:0/96
+
+      unwanted-reply-threshold: 10000000
+      do-not-query-address: 127.0.0.1/8
+      do-not-query-address: ::1
+      do-not-query-localhost: no
+
+      prefetch: yes
+      minimal-responses: yes
+      module-config: "validator iterator"
+
+      # File with trusted keys, kept up to date using RFC5011 probes, initial file
+      # like trust-anchor-file, then it stores metadata.  Use several entries, one
+      # per domain name, to track multiple zones. If you use forward-zone below to
+      # query the Google DNS servers you MUST comment out this option or all DNS
+      # queries will fail.
+      # auto-trust-anchor-file: "/usr/share/dnssec-root/trusted-key.key"
+      trust-anchor-file: "/usr/share/dnssec-root/trusted-key.key"
+      val-bogus-ttl: 60
+      val-sig-skew-min: 3600
+      val-sig-skew-max: 86400
+      val-clean-additional: yes
+      val-log-level: 2
+      key-cache-size: 20m
+      key-cache-slabs: 4
+      neg-cache-size: 1m
+
+      include: "/etc/unbound/unbound_ad_servers"
+
+      include: "/etc/unbound/a-records.conf"
+
+    include: "/etc/unbound/forward-records.conf"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unbound-a-records-conf
+data:
+  a-records.conf: |
+    server:
+      # Your internal network name and addresses go here
+      private-domain: "box"
+      domain-insecure: "box"
+      local-zone: "box" transparent
+      local-data: "fw.box IN A 10.27.27.1"
+      local-data-ptr: "10.27.27.1 fw.box"
+      local-data: "pihole.box IN A 10.27.27.27"
+      local-data-ptr: "10.27.27.27 pihole.box"
+      local-data: "cattle.box IN A 10.27.27.40"
+      local-data-ptr: "10.27.27.40 cattle.box"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unbound-forward-records-conf
+data:
+  forward-records.conf: |
+    forward-zone:
+      name: "."
+      forward-addr: 1.1.1.3           # Cloudflare Family
+      forward-addr: 1.0.0.3           # Cloudflare Family
+      forward-addr: 9.9.9.9           # Quad9
+      forward-addr: 149.112.112.112   # Quad9
+      forward-first: yes
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unbound-srv-records-conf
+data:
+  srv-records.conf: |
+    # SRV records
+    # _service._proto.name. | TTL | class | SRV | priority | weight | port | target.
+---
+

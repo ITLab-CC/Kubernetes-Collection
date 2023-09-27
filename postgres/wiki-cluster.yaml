@@ -1,0 +1,23 @@
+apiVersion: 'acid.zalan.do/v1'
+kind: postgresql
+metadata:
+  name: wiki-cluster
+spec:
+  teamId: 'wiki'
+  numberOfInstances: 2
+  users:
+    wikiuser: [] # role for application wiki
+    # zalando: # database owner
+    #   - superuser
+    #   - createdb
+    # foo_user: [] # role for application foo
+  databases:
+    # foo: zalando # dbname: owner
+    wiki: wikiuser
+  # preparedDatabases:
+  #   bar: {}
+  postgresql:
+    version: '15'
+  volume:
+    size: 500Mi
+    storageClass: standard
