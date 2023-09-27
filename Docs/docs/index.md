@@ -1,7 +1,12 @@
+---
+hide:
+  - navigation
+---
+
 # IT-Lab Kubernetes Collection
 
-Welcome to the IT-Lab Kubernetes Collection. This collection is a collection of Kubernetes applications and tools.
-It also contains the basics to create a fully functional Kubernetes cluster.
+Welcome to the IT-Lab Kubernetes Collection. This is a collection of Kubernetes applications and tools.
+It also contains the `Basics` to create a fully functional Kubernetes cluster.
 
 ## Navigation
 

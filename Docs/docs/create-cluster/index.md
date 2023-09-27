@@ -1,8 +1,8 @@
-# Introduction
+# Create a cluster
 
 In this section we will show you how to create a Kubernetes cluster and configure Traefik.
 
-# Create your first cluster
+## Choose a cluster type
 
 You can choose between the following cluster types:
 
@@ -10,7 +10,7 @@ You can choose between the following cluster types:
 - [K3s](/create-cluster/k3s)
 - [K8s](/create-cluster/k8s)
 
-# Configure Traefik
+## Configure Traefik
 
 After creating the cluster we need to configure Traefik.
 
