@@ -4,8 +4,8 @@ tags: [kubernetes, sharelatex, latex, overleaf]
 
 # Overleaf / ShareLaTeX
 
-- Create an MongoDB Replica Set by following the instructions in the [MongoDB Replica Set](/databases/mongodb) section.
-- Create an Redis Standalone by following the instructions in the [Redis Standalone](/databases/redis) section. (We need to create a Redis Standalone because the Redis Cluster is not supported by ShareLaTeX)
+- Create an MongoDB Replica Set by following the instructions in the [MongoDB Replica Set](../../databases/mongodb) section.
+- Create an Redis Standalone by following the instructions in the [Redis Standalone](../../databases/redis) section. (We need to create a Redis Standalone because the Redis Cluster is not supported by ShareLaTeX)
 
 ## Installation
 

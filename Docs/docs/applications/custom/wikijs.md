@@ -8,7 +8,7 @@ WikiJS is a modern, lightweight and powerful wiki app built on NodeJS, Git and M
 
 !!! note
 
-    First we need a `Postgres` database. Please refer to [Postgres](/applications/databases/postgresql).
+    First we need a `Postgres` database. Please refer to [Postgres](../../databases/postgresql).
 
 ## Install
 
@@ -24,7 +24,7 @@ kubectl create ns wiki-ns
 
 ### Config
 
-Edit the database `config/config.yml` based on the [Postgres](/applications/databases/postgresql) config.
+Edit the database `config/config.yml` based on the [Postgres](../../databases/postgresql) config.
 
 - `db.host`: `<postgres-service-name>.<namespace>.svc.cluster.local`
 - `db.port`: `5432`

@@ -12,4 +12,4 @@ It also contains the `Basics` to create a fully functional Kubernetes cluster.
 
 The `Top-Bar Navigation` provides a "guided" tour through the documentation. It is recommended to `follow the order` of the navigation.
 
-So lets start to [create a cluster](/create-cluster).
+So lets start to [create a cluster](create-cluster).

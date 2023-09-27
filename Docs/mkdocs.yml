@@ -2,6 +2,7 @@ site_name: Kubernetes Collection
 repo_name: Kubernetes-Collection
 repo_url: https://github.com/ITLab-CC/Kubernetes-Collection
 edit_uri: 'tree/main/Docs/docs/'
+site_url: https://itlab-cc.github.io/Kubernetes-Collection/
 theme:
   name: material
   features:

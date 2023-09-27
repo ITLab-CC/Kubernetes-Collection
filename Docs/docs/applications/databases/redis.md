@@ -16,7 +16,7 @@ helm install redis-operator ot-helm/redis-operator --namespace ot-operators --cr
 ### Standalone
 
 We can create a Redis Standalone instance by using the following command:
-We will use it e.g. for [ShareLaTeX](/applications/custom/sharelatex).
+We will use it e.g. for [ShareLaTeX](../../custom/sharelatex).
 
 ```bash
 helm install redis ot-helm/redis --namespace ot-operators

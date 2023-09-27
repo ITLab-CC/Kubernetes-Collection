@@ -38,7 +38,7 @@ spec:
 
 `kubectl apply -f traefik.yaml`
 
-[Expose Services](/usage/expose)
+[Expose Services](../../usage/expose)
 
 [http://172.30.62.166:9000/dashboard/#/](http://172.30.62.166:9000/dashboard/#/){:target="\_blank"}
 
