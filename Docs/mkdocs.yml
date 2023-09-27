@@ -1,4 +1,7 @@
 site_name: Kubernetes Collection
+repo_name: Kubernetes-Collection
+repo_url: https://github.com/ITLab-CC/Kubernetes-Collection
+edit_uri: 'tree/main/Docs/docs/'
 theme:
   name: material
   features:
@@ -7,6 +10,8 @@ theme:
     - navigation.instant.prefetch
     - navigation.tabs
     - navigation.tabs.sticky
+    - content.action.edit
+    - navigation.footer
   palette:
     scheme: slate
 markdown_extensions:
@@ -19,11 +24,15 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - toc:
+      permalink: true
 plugins:
   - search
   - awesome-pages
+  - git-revision-date
   - print-site
 nav:
+  - Home: index.md
   - Create Cluster:
       - Intro: create-cluster/index.md
       - Local Cluster via Kind: create-cluster/kind.md

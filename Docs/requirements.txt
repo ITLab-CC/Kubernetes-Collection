@@ -3,3 +3,4 @@ mkdocs-material
 mkdocs-awesome-pages-plugin
 mkdocs-print-site-plugin
 mkdocs-material-extensions
+mkdocs-git-revision-date-plugin
